@@ -1,0 +1,23 @@
+Minimum mesh angle: 31.1204
+Maximum mesh angle: 162.314
+
+Statistics for Scaled Jacobian metric:
+Minimum value: 0.0024361
+Maximum value: 0.999903
+Average value: 0.5771
+
+Statistics for Distortion metric:
+Minimum value: 0.285455
+Maximum value: 1.92166
+Average value: 1.4503
+
+Statistics for Warpage metric:
+Minimum value: 0.000375505
+Maximum value: 180
+Average value: 39.3027
+
+Statistics for Aspect Ratio metric:
+Minimum value: 1.02629
+Maximum value: 202.067
+Average value: 2.30756
+
