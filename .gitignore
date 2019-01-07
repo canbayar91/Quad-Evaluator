@@ -1,4 +1,5 @@
 /Debug
 /Quad Evaluator/Debug
-/Quad Evaluator/results.txt
+/Quad Evaluator/*.txt
+/Quad Evaluator/*.off
 /Quad Evaluator/*.csv
