@@ -44,11 +44,11 @@ private:
 	// Calculates the average of the normals on corner points in a quadrilateral
 	const static Normal calculateNormalAverage(const Quadrilateral &quadrilateral);
 
-	// Aligns a triangle to the z=0 plane
-	const static void alignTriangle(Edge &left, Edge &right);
+	// Projects a triangle to the z=0 plane
+	const static void projectTriangle(Edge &left, Edge &right);
 
-	// Aligns a non-planar quadrilateral onto an average plane
-	const static Quadrilateral alignQuadrilateral(const Quadrilateral &quadrilateral);
+	// Projects a non-planar quadrilateral onto an average plane
+	const static Quadrilateral projectQuadrilateral(const Quadrilateral &quadrilateral);
 
 };
 

@@ -15,8 +15,8 @@ const double EvaluationFunctions::calculateScaledJacobian(const Quadrilateral &q
 	Vector AB(vertexA, vertexB);
 	Vector AD(vertexA, vertexD);
 
-	// Aling the triangle area created by the edge vectors to the z=0 plane
-	alignTriangle(AB, AD);
+	// Project the triangle area created by the edge vectors to the z=0 plane
+	projectTriangle(AB, AD);
 
 	// Calculate the scaled jacobian value
 	double minimum = calculateJacobianDeterminant(AD, AB) / AB.getLength() / AD.getLength();
@@ -25,8 +25,8 @@ const double EvaluationFunctions::calculateScaledJacobian(const Quadrilateral &q
 	Vector BC(vertexB, vertexC);
 	Vector BA(vertexB, vertexA);
 
-	// Aling the triangle area created by the edge vectors to the z=0 plane
-	alignTriangle(BC, BA);
+	// Project the triangle area created by the edge vectors to the z=0 plane
+	projectTriangle(BC, BA);
 
 	// Calculate the scaled jacobian value
 	double scaledJacobian = calculateJacobianDeterminant(BA, BC) / BC.getLength() / BA.getLength();
@@ -40,8 +40,8 @@ const double EvaluationFunctions::calculateScaledJacobian(const Quadrilateral &q
 	Vector CD(vertexC, vertexD);
 	Vector CB(vertexC, vertexB);
 
-	// Aling the triangle area created by the edge vectors to the z=0 plane
-	alignTriangle(CD, CB);
+	// Project the triangle area created by the edge vectors to the z=0 plane
+	projectTriangle(CD, CB);
 
 	// Calculate the scaled jacobian value
 	scaledJacobian = calculateJacobianDeterminant(CB, CD) / CD.getLength() / CB.getLength();
@@ -55,8 +55,8 @@ const double EvaluationFunctions::calculateScaledJacobian(const Quadrilateral &q
 	Vector DA(vertexD, vertexA);
 	Vector DC(vertexD, vertexC);
 
-	// Aling the triangle area created by the edge vectors to the z=0 plane
-	alignTriangle(DA, DC);
+	// Project the triangle area created by the edge vectors to the z=0 plane
+	projectTriangle(DA, DC);
 
 	// Calculate the scaled jacobian value
 	scaledJacobian = calculateJacobianDeterminant(DC, DA) / DA.getLength() / DC.getLength();
@@ -143,11 +143,6 @@ const double EvaluationFunctions::calculateDistortion2(const Quadrilateral &quad
 
 const double EvaluationFunctions::calculateMaximumWarpage(const Quadrilateral &quadrilateral) {
 
-	// Check for concavity
-	if (GeometricFunctions::checkConcavity(quadrilateral)) {
-		int x = 5;
-	}
-
 	// Calculate warpage amount on both diagonals
 	double horizontalWarpage = calculateWarpage(quadrilateral, HORIZONTAL);
 	double verticalWarpage = calculateWarpage(quadrilateral, VERTICAL);
@@ -164,13 +159,13 @@ const double EvaluationFunctions::calculateMaximumWarpage(const Quadrilateral &q
 const double EvaluationFunctions::calculateAspectRatio(const Quadrilateral &quadrilateral) {
 
 	// Project the quadrilateral onto a plane in case it is not planar
-	const Quadrilateral alignedQuadrilateral = alignQuadrilateral(quadrilateral);
+	const Quadrilateral projectedQuadrilateral = projectQuadrilateral(quadrilateral);
 
 	// Get the vertices of the quadrilateral
-	const Vertex vertexA = alignedQuadrilateral.getVertexA();
-	const Vertex vertexB = alignedQuadrilateral.getVertexB();
-	const Vertex vertexC = alignedQuadrilateral.getVertexC();
-	const Vertex vertexD = alignedQuadrilateral.getVertexD();
+	const Vertex vertexA = projectedQuadrilateral.getVertexA();
+	const Vertex vertexB = projectedQuadrilateral.getVertexB();
+	const Vertex vertexC = projectedQuadrilateral.getVertexC();
+	const Vertex vertexD = projectedQuadrilateral.getVertexD();
 
 	// Find the middle point of the edges
 	const Vertex midAB = (vertexA + vertexB) / 2;
@@ -322,7 +317,7 @@ const Normal EvaluationFunctions::calculateNormalAverage(const Quadrilateral &qu
 	return normal;
 }
 
-const void EvaluationFunctions::alignTriangle(Edge &left, Edge &right) {
+const void EvaluationFunctions::projectTriangle(Edge &left, Edge &right) {
 
 	// Create a temporary edge to complete the triangle
 	const Vector leftover(left.getEnd(), right.getEnd());
@@ -348,7 +343,7 @@ const void EvaluationFunctions::alignTriangle(Edge &left, Edge &right) {
 	right.setEnd(rightVertex);
 }
 
-const Quadrilateral EvaluationFunctions::alignQuadrilateral(const Quadrilateral &quadrilateral) {
+const Quadrilateral EvaluationFunctions::projectQuadrilateral(const Quadrilateral &quadrilateral) {
 
 	// Calculate the average of the corner points
 	const Vertex origin = calculateCornerAverage(quadrilateral);
