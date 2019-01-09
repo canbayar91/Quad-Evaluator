@@ -83,6 +83,7 @@ const double EvaluationFunctions::calculateDistortion(const Quadrilateral &quadr
 	const Vector diagonalBD(vertexB, vertexD);
 
 	// Find the intersection point of the diagonals
+	// TODO - Diagonals of the concave quadrilaterals do not intersect
 	const Vertex intersection = GeometricFunctions::findLineIntersection(diagonalAC, diagonalBD);
 
 	// Calculate the triangle distortion amounts
@@ -304,8 +305,8 @@ const Normal EvaluationFunctions::calculateNormalAverage(const Quadrilateral &qu
 	const Normal normalD = GeometricFunctions::findNormal(DA, DC);
 
 	// Create start and end vertices for the normal
-	const Vertex startVertex = (normalA.getStart() + normalB.getStart() + normalC.getStart() + normalD.getStart()) / 4;
-	const Vertex endVertex = (normalA.getEnd() + normalB.getEnd() + normalC.getEnd() + normalD.getEnd()) / 4;
+	const Vertex startVertex = (normalA.start + normalB.start + normalC.start + normalD.start) / 4;
+	const Vertex endVertex = (normalA.end + normalB.end + normalC.end + normalD.end) / 4;
 
 	// Create the average normal
 	const Normal average(startVertex, endVertex);
@@ -320,7 +321,7 @@ const Normal EvaluationFunctions::calculateNormalAverage(const Quadrilateral &qu
 const void EvaluationFunctions::projectTriangle(Edge &left, Edge &right) {
 
 	// Create a temporary edge to complete the triangle
-	const Vector leftover(left.getEnd(), right.getEnd());
+	const Vector leftover(left.end, right.end);
 
 	// Get the edge lengths
 	double leftEdgeLength = left.getLength();
@@ -337,10 +338,10 @@ const void EvaluationFunctions::projectTriangle(Edge &left, Edge &right) {
 	const Vertex leftVertex(x, y);
 
 	// Update the edge coordinates
-	left.setStart(middleVertex);
-	left.setEnd(leftVertex);
-	right.setStart(middleVertex);
-	right.setEnd(rightVertex);
+	left.start = middleVertex;
+	left.end = leftVertex;
+	right.start = middleVertex;
+	right.end = rightVertex;
 }
 
 const Quadrilateral EvaluationFunctions::projectQuadrilateral(const Quadrilateral &quadrilateral) {
@@ -370,27 +371,27 @@ const Quadrilateral EvaluationFunctions::projectQuadrilateral(const Quadrilatera
 	double distanceD = GeometricFunctions::dotProduct(normal, vectorD);
 
 	// Calculate the projection point for the first vertex
-	double x = vertexA.x - (normal.getStart().x + distanceA * normal.getLengthX());
-	double y = vertexA.y - (normal.getStart().y + distanceA * normal.getLengthY());
-	double z = vertexA.z - (normal.getStart().z + distanceA * normal.getLengthZ());
+	double x = vertexA.x - (normal.start.x + distanceA * normal.getLengthX());
+	double y = vertexA.y - (normal.start.y + distanceA * normal.getLengthY());
+	double z = vertexA.z - (normal.start.z + distanceA * normal.getLengthZ());
 	const Vertex projectedA(x, y, z);
 
 	// Calculate the projection point for the second vertex
-	x = vertexB.x - (normal.getStart().x + distanceB * normal.getLengthX());
-	y = vertexB.y - (normal.getStart().y + distanceB * normal.getLengthY());
-	z = vertexB.z - (normal.getStart().z + distanceB * normal.getLengthZ());
+	x = vertexB.x - (normal.start.x + distanceB * normal.getLengthX());
+	y = vertexB.y - (normal.start.y + distanceB * normal.getLengthY());
+	z = vertexB.z - (normal.start.z + distanceB * normal.getLengthZ());
 	const Vertex projectedB(x, y, z);
 
 	// Calculate the projection point for the third vertex
-	x = vertexC.x - (normal.getStart().x + distanceC * normal.getLengthX());
-	y = vertexC.y - (normal.getStart().y + distanceC * normal.getLengthY());
-	z = vertexC.z - (normal.getStart().z + distanceC * normal.getLengthZ());
+	x = vertexC.x - (normal.start.x + distanceC * normal.getLengthX());
+	y = vertexC.y - (normal.start.y + distanceC * normal.getLengthY());
+	z = vertexC.z - (normal.start.z + distanceC * normal.getLengthZ());
 	const Vertex projectedC(x, y, z);
 
 	// Calculate the projection point for the fourth vertex
-	x = vertexD.x - (normal.getStart().x + distanceD * normal.getLengthX());
-	y = vertexD.y - (normal.getStart().y + distanceD * normal.getLengthY());
-	z = vertexD.z - (normal.getStart().z + distanceD * normal.getLengthZ());
+	x = vertexD.x - (normal.start.x + distanceD * normal.getLengthX());
+	y = vertexD.y - (normal.start.y + distanceD * normal.getLengthY());
+	z = vertexD.z - (normal.start.z + distanceD * normal.getLengthZ());
 	const Vertex projectedD(x, y, z);
 
 	// Create the quadrilateral with projected vertices

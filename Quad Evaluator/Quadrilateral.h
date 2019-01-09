@@ -1,7 +1,7 @@
 #ifndef QUADRILATERAL
 #define QUADRILATERAL
 
-#include "Edge.h"
+#include "Vector.h"
 
 const int POINT_COUNT = 4;
 

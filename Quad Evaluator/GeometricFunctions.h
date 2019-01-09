@@ -3,8 +3,9 @@
 
 #include "Quadrilateral.h"
 
-typedef Edge Vector;
-typedef Edge Normal;
+typedef Vertex Point;
+typedef Vector Edge;
+typedef Vector Normal;
 typedef double Angle;
 
 #define PI 3.14159265
@@ -19,7 +20,13 @@ public:
 	static double crossProduct(const Vector &a, const Vector &b);
 
 	// Checks whether a quadrilateral is concave or not
-	static bool checkConcavity(const Quadrilateral &quadrilateral);
+	static bool checkConcavityByAngle(const Quadrilateral &quadrilateral);
+
+	// Checks whether a quadrilateral is concave or not
+	static bool checkConcavityByIntersection(const Quadrilateral &quadrilateral);
+
+	// Checks whether the two line segments intersect or not
+	static bool checkLineIntersection(const Edge &a, const Edge &b);
 
 	// Finds the intersection point of two line segments
 	const static Vertex findLineIntersection(const Edge &a, const Edge &b);
@@ -28,13 +35,13 @@ public:
 	const static Normal findNormal(const Vector &a, const Vector &b);
 
 	// Calculates the angle between two vectors
-	const static Angle calculateAngle(const Vector &a, const Vector &b);
+	static Angle calculateAngle(const Vector &a, const Vector &b);
 
 	// Converts degrees to radians
-	const static Angle degreesToRadians(const Angle angle);
+	static Angle degreesToRadians(const Angle angle);
 
 	// Converts radians to degrees
-	const static Angle radiansToDegrees(const Angle angle);
+	static Angle radiansToDegrees(const Angle angle);
 
 	// Normalizes the given vector to a unit vector
 	const static Vector normalizeVector(const Vector &vector);

@@ -73,7 +73,7 @@
     <ClCompile Include="GeometricFunctions.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Quadrilateral.cpp" />
-    <ClCompile Include="Edge.cpp" />
+    <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AngleStatistics.h" />
@@ -84,7 +84,7 @@
     <ClInclude Include="EvaluationFunctions.h" />
     <ClInclude Include="GeometricFunctions.h" />
     <ClInclude Include="Quadrilateral.h" />
-    <ClInclude Include="Edge.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

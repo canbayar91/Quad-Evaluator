@@ -15,12 +15,10 @@ double GeometricFunctions::crossProduct(const Vector &a, const Vector &b) {
 	return positivePart - negativePart;
 }
 
-bool GeometricFunctions::checkConcavity(const Quadrilateral &quadrilateral) {
+bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral &quadrilateral) {
 
-	// There are two possible approaches to check concavity
-	// 1 - Get the diagonals and see if they cross each other
-	// 2 - Traverse through angles and see if any of them is bigger than 180
-	// Second approach is used in this function, but non-planarity is a problem
+	// Traverse through angles and see if any of them is bigger than 180
+	// This function assumes that input quadrilaterals are planar
 
 	// Get the vertices of the quadrilateral
 	const Vertex vertexA = quadrilateral.getVertexA();
@@ -68,17 +66,58 @@ bool GeometricFunctions::checkConcavity(const Quadrilateral &quadrilateral) {
 	return false;
 }
 
+bool GeometricFunctions::checkConcavityByIntersection(const Quadrilateral &quadrilateral) {
+
+	// Get the diagonals and see if they cross each other
+	// This function assumes that input quadrilaterals are planar
+
+	// Get the vertices of the quadrilateral
+	const Vertex vertexA = quadrilateral.getVertexA();
+	const Vertex vertexB = quadrilateral.getVertexB();
+	const Vertex vertexC = quadrilateral.getVertexC();
+	const Vertex vertexD = quadrilateral.getVertexD();
+
+	// Get the diagonals on the quadrilateral
+	const Edge diagonalAC(vertexA, vertexC);
+	const Edge diagonalBD(vertexB, vertexD);
+
+	// If diagonals do not intersect, the quadrilateral is concave
+	return !checkLineIntersection(diagonalAC, diagonalBD);
+}
+
+bool GeometricFunctions::checkLineIntersection(const Edge &a, const Edge &b) {
+
+	// Vertices of the first line segment
+	const Vertex p1 = a.start;
+	const Vertex p2 = a.end;
+
+	// Vertices of the second line segment
+	const Vertex q1 = b.start;
+	const Vertex q2 = b.end;
+
+	// Calculate the normal endpoints for the line segments
+	const Vertex na(p2.y - p1.y, p2.x - p1.x);
+	const Vertex nb(q2.y - q1.y, q2.x - q1.x);
+
+	// Check if both endpoints of line segments are on the same side
+	bool firstCond = ((q1.x - p1.x) * na.x - (q1.y - p1.y) * na.y) * ((q2.x - p1.x) * na.x - (q2.y - p1.y) * na.y) < 0;
+	bool secondCond = ((p1.x - q1.x) * nb.x - (p1.y - q1.y) * nb.y) * ((p2.x - q1.x) * nb.x - (p2.y - q1.y) * nb.y) < 0;
+
+	// Result depends on both conditions
+	return firstCond && secondCond;
+}
+
 const Vertex GeometricFunctions::findLineIntersection(const Edge &a, const Edge &b) {
 
 	// Edge A is represented as a1x + b1y = c1
-	double a1 = a.getEnd().y - a.getStart().y;
-	double b1 = a.getStart().x - a.getEnd().x;
-	double c1 = a1 * a.getStart().x + b1 * a.getStart().y;
+	double a1 = a.end.y - a.start.y;
+	double b1 = a.start.x - a.end.x;
+	double c1 = a1 * a.start.x + b1 * a.start.y;
 
 	// Edge B is represented as a2x + b2y = c2
-	double a2 = b.getEnd().y - b.getStart().y;
-	double b2 = b.getStart().x - b.getEnd().x;
-	double c2 = a2 * b.getStart().x + b2 * b.getStart().y;
+	double a2 = b.end.y - b.start.y;
+	double b2 = b.start.x - b.end.x;
+	double c2 = a2 * b.start.x + b2 * b.start.y;
 
 	// Find the intersection point
 	double determinant = a1 * b2 - a2 * b1;
@@ -98,16 +137,16 @@ const Normal GeometricFunctions::findNormal(const Vector &a, const Vector &b) {
 	double z = a.getProductX() * b.getProductY() - a.getProductY() * b.getProductX();
 
 	// Add the vector lengths into the starting point
-	Vertex endpoint(a.getStart().x + x, a.getStart().y + y, a.getStart().z + z);
+	Vertex endpoint(a.start.x + x, a.start.y + y, a.start.z + z);
 
 	// Create the normal vector
-	Normal normal(a.getStart(), endpoint);
+	Normal normal(a.start, endpoint);
 
 	// Return the normal vector
 	return normal;
 }
 
-const Angle GeometricFunctions::calculateAngle(const Vector &a, const Vector &b) {
+Angle GeometricFunctions::calculateAngle(const Vector &a, const Vector &b) {
 
 	// Calculate the dot product
 	double dotProduct = GeometricFunctions::dotProduct(a, b);
@@ -123,13 +162,13 @@ const Angle GeometricFunctions::calculateAngle(const Vector &a, const Vector &b)
 	return angle;
 }
 
-const Angle GeometricFunctions::degreesToRadians(const Angle angle) {
+Angle GeometricFunctions::degreesToRadians(const Angle angle) {
 
 	// Convert degrees to radians
 	return angle * PI / 180.0;
 }
 
-const Angle GeometricFunctions::radiansToDegrees(const Angle angle) {
+Angle GeometricFunctions::radiansToDegrees(const Angle angle) {
 
 	// Convert radians to degrees
 	return angle * 180.0 / PI;
@@ -141,10 +180,10 @@ const Vector GeometricFunctions::normalizeVector(const Vector &vector) {
 	double length = vector.getLength();
 
 	// Calculate the normalized vector endpoints
-	double x = vector.getStart().x + vector.getLengthX() / length;
-	double y = vector.getStart().y + vector.getLengthY() / length;
-	double z = vector.getStart().z + vector.getLengthZ() / length;
+	double x = vector.start.x + vector.getLengthX() / length;
+	double y = vector.start.y + vector.getLengthY() / length;
+	double z = vector.start.z + vector.getLengthZ() / length;
 	
 	// Create and return the normalized vector
-	return Vector(vector.getStart(), Vertex(x, y, z));
+	return Vector(vector.start, Vertex(x, y, z));
 }
