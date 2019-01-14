@@ -2,27 +2,24 @@
 #include "GeometricFunctions.h"
 #include <fstream>
 
-AngleStatistics::AngleStatistics(const std::vector<Quadrilateral> &mesh) {
+AngleStatistics::AngleStatistics(const Mesh* mesh) {
 
 	// Reset the minimum and maximum angle values
 	minimumValue = 360;
 	maximumValue = 0;
 
+	// Get the list of quadrilateral faces on the mesh
+	std::vector<Primitive*> quadrilateralList = mesh->getFaceList();
+
 	// Iterate through each quadrilateral in the mesh
-	for (unsigned int i = 0; i < mesh.size(); i++) {
+	for (size_t i = 0; i < mesh->getFaceCount(); i++) {
 
 		// Get the current quadrilateral
-		const Quadrilateral &quadrilateral = mesh[i];
-
-		// Get the vertices of the quadrilateral
-		const Vertex vertexA = quadrilateral.getVertexA();
-		const Vertex vertexB = quadrilateral.getVertexB();
-		const Vertex vertexC = quadrilateral.getVertexC();
-		const Vertex vertexD = quadrilateral.getVertexD();
+		const Quadrilateral* quadrilateral = static_cast<Quadrilateral*>(quadrilateralList[i]);
 
 		// Get vectors AB and AD
-		const Vector AB(vertexA, vertexB);
-		const Vector AD(vertexA, vertexD);
+		const Vector AB(quadrilateral->a, quadrilateral->b);
+		const Vector AD(quadrilateral->a, quadrilateral->d);
 
 		// Calculate and store the angle between the vectors
 		double currentAngle = GeometricFunctions::calculateAngle(AB, AD);
@@ -33,8 +30,8 @@ AngleStatistics::AngleStatistics(const std::vector<Quadrilateral> &mesh) {
 		maximumValue = currentAngle;
 
 		// Get vectors BC and BA
-		const Vector BC(vertexB, vertexC);
-		const Vector BA(vertexB, vertexA);
+		const Vector BC(quadrilateral->b, quadrilateral->c);
+		const Vector BA(quadrilateral->b, quadrilateral->a);
 
 		// Calculate and store the angle between the vectors
 		currentAngle = GeometricFunctions::calculateAngle(BC, BA);
@@ -51,8 +48,8 @@ AngleStatistics::AngleStatistics(const std::vector<Quadrilateral> &mesh) {
 		}
 
 		// Get vectors CD and CB
-		const Vector CD(vertexC, vertexD);
-		const Vector CB(vertexC, vertexB);
+		const Vector CD(quadrilateral->c, quadrilateral->d);
+		const Vector CB(quadrilateral->c, quadrilateral->b);
 
 		// Calculate and store the angle between the vectors
 		currentAngle = GeometricFunctions::calculateAngle(CD, CB);
@@ -69,8 +66,8 @@ AngleStatistics::AngleStatistics(const std::vector<Quadrilateral> &mesh) {
 		}
 
 		// Get vectors DA and DC
-		const Vector DA(vertexD, vertexA);
-		const Vector DC(vertexD, vertexC);
+		const Vector DA(quadrilateral->d, quadrilateral->a);
+		const Vector DC(quadrilateral->d, quadrilateral->c);
 
 		// Calculate and store the angle between the vectors
 		currentAngle = GeometricFunctions::calculateAngle(DA, DC);

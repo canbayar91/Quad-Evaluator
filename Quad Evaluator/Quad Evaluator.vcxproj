@@ -66,8 +66,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AngleStatistics.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshReader.cpp" />
     <ClCompile Include="MeshStatistics.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="EvaluationFunctions.cpp" />
     <ClCompile Include="GeometricFunctions.cpp" />
@@ -77,9 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AngleStatistics.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshReader.h" />
     <ClInclude Include="MeshStatistics.h" />
+    <ClInclude Include="Primitive.h" />
     <ClInclude Include="Statistics.h" />
+    <ClInclude Include="Triangle.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="EvaluationFunctions.h" />
     <ClInclude Include="GeometricFunctions.h" />

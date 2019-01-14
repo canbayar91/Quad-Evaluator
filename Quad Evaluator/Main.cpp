@@ -12,39 +12,47 @@ int main(int argc, char *argv[]) {
 	std::string filename = argv[1];
 
 	// Read the mesh from input file
-	std::vector<Quadrilateral> quadrilateralList = MeshReader::getInstance()->readMesh(filename);
+	Mesh* quadrilateralMesh = new Mesh(QUADRILATERAL_MESH);
+	MeshReader::getInstance()->readQuadrilateralMesh(filename, quadrilateralMesh);
 
 	// Calculate the angle statistics of the quadrilateral
-	AngleStatistics angleStatistics(quadrilateralList);
+	AngleStatistics angleStatistics(quadrilateralMesh);
+
+	// Get the list of quadrilateral faces on the mesh
+	std::vector<Primitive*> quadrilateralList = quadrilateralMesh->getFaceList();
 
 	// Calculate the scaled jacobian matrix metric for the mesh
 	MeshStatistics scaledJacobianStatistics(SCALED_JACOBIAN);
-	for (unsigned int i = 0; i < quadrilateralList.size(); i++) {
-		double scaledJacobian = EvaluationFunctions::calculateScaledJacobian(quadrilateralList[i]);
+	for (size_t i = 0; i < quadrilateralMesh->getFaceCount(); i++) {
+		const Quadrilateral* quadrilateral = static_cast<Quadrilateral*>(quadrilateralList[i]);
+		double scaledJacobian = EvaluationFunctions::calculateMinimumScaledJacobian(quadrilateral);
 		scaledJacobianStatistics.updateStatistics(scaledJacobian);
 		// std::cout << scaledJacobian << std::endl;
 	}
 
 	// Calculate the distortion metric for the mesh
 	MeshStatistics distortionStatistics(DISTORTION);
-	for (unsigned int i = 0; i < quadrilateralList.size(); i++) {
-		double distortion = EvaluationFunctions::calculateDistortion2(quadrilateralList[i]);
+	for (size_t i = 0; i < quadrilateralMesh->getFaceCount(); i++) {
+		const Quadrilateral* quadrilateral = static_cast<Quadrilateral*>(quadrilateralList[i]);
+		double distortion = EvaluationFunctions::calculateDistortion2(quadrilateral);
 		distortionStatistics.updateStatistics(distortion);
 		// std::cout << distortion << std::endl;
 	}
 
 	// Calculate the warpage metric for the mesh
 	MeshStatistics warpageStatistics(WARPAGE);
-	for (unsigned int i = 0; i < quadrilateralList.size(); i++) {
-		double warpage = EvaluationFunctions::calculateMaximumWarpage(quadrilateralList[i]);
+	for (size_t i = 0; i < quadrilateralMesh->getFaceCount(); i++) {
+		const Quadrilateral* quadrilateral = static_cast<Quadrilateral*>(quadrilateralList[i]);
+		double warpage = EvaluationFunctions::calculateMaximumWarpage(quadrilateral);
 		warpageStatistics.updateStatistics(warpage);
 		// std::cout << warpage << std::endl;
 	}
 
 	// Calculate the aspect-ration metric for the mesh
 	MeshStatistics aspectRatioStatistics(ASPECT_RATIO);
-	for (unsigned int i = 0; i < quadrilateralList.size(); i++) {
-		double aspectRatio = EvaluationFunctions::calculateAspectRatio(quadrilateralList[i]);
+	for (size_t i = 0; i < quadrilateralMesh->getFaceCount(); i++) {
+		const Quadrilateral* quadrilateral = static_cast<Quadrilateral*>(quadrilateralList[i]);
+		double aspectRatio = EvaluationFunctions::calculateAspectRatio(quadrilateral);
 		aspectRatioStatistics.updateStatistics(aspectRatio);
 		// std::cout << aspectRatio << std::endl;
 	}

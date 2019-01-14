@@ -20,10 +20,13 @@ public:
 	static double crossProduct(const Vector &a, const Vector &b);
 
 	// Checks whether a quadrilateral is concave or not
-	static bool checkConcavityByAngle(const Quadrilateral &quadrilateral);
+	static bool checkConcavityByAngle(const Quadrilateral* quadrilateral);
 
 	// Checks whether a quadrilateral is concave or not
-	static bool checkConcavityByIntersection(const Quadrilateral &quadrilateral);
+	static bool checkConcavityByIntersection(const Quadrilateral* quadrilateral);
+
+	// Checks whether a quadrilateral is planar or not
+	static bool checkPlanarity(const Quadrilateral* quadrilateral);
 
 	// Checks whether the two line segments intersect or not
 	static bool checkLineIntersection(const Edge &a, const Edge &b);

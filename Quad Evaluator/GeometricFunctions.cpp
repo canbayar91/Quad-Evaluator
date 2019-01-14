@@ -15,20 +15,14 @@ double GeometricFunctions::crossProduct(const Vector &a, const Vector &b) {
 	return positivePart - negativePart;
 }
 
-bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral &quadrilateral) {
+bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral* quadrilateral) {
 
 	// Traverse through angles and see if any of them is bigger than 180
 	// This function assumes that input quadrilaterals are planar
 
-	// Get the vertices of the quadrilateral
-	const Vertex vertexA = quadrilateral.getVertexA();
-	const Vertex vertexB = quadrilateral.getVertexB();
-	const Vertex vertexC = quadrilateral.getVertexC();
-	const Vertex vertexD = quadrilateral.getVertexD();
-
 	// Get the edge vectors for the first vertex
-	const Vector AB(vertexA, vertexB);
-	const Vector AD(vertexA, vertexD);
+	const Vector AB(quadrilateral->a, quadrilateral->b);
+	const Vector AD(quadrilateral->a, quadrilateral->d);
 
 	// Calculate the angle between vectors and return true if the angle > 180
 	if (GeometricFunctions::calculateAngle(AB, AD) > 180.0) {
@@ -36,8 +30,8 @@ bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral &quadrilatera
 	}
 
 	// Get the edge vectors for the second vertex
-	const Vector BC(vertexB, vertexC);
-	const Vector BA(vertexB, vertexA);
+	const Vector BC(quadrilateral->b, quadrilateral->c);
+	const Vector BA(quadrilateral->b, quadrilateral->a);
 
 	// Calculate the angle between vectors and return true if the angle > 180
 	if (GeometricFunctions::calculateAngle(BC, BA) > 180.0) {
@@ -45,8 +39,8 @@ bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral &quadrilatera
 	}
 
 	// Get the edge vectors for the third vertex
-	const Vector CD(vertexC, vertexD);
-	const Vector CB(vertexC, vertexB);
+	const Vector CD(quadrilateral->c, quadrilateral->d);
+	const Vector CB(quadrilateral->c, quadrilateral->b);
 
 	// Calculate the angle between vectors and return true if the angle > 180
 	if (GeometricFunctions::calculateAngle(CD, CB) > 180.0) {
@@ -54,8 +48,8 @@ bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral &quadrilatera
 	}
 
 	// Get the edge vectors for the fourth vertex
-	const Vector DA(vertexD, vertexA);
-	const Vector DC(vertexD, vertexC);
+	const Vector DA(quadrilateral->d, quadrilateral->a);
+	const Vector DC(quadrilateral->d, quadrilateral->c);
 
 	// Calculate the angle between vectors and return true if the angle > 180
 	if (GeometricFunctions::calculateAngle(DA, DC) > 180.0) {
@@ -66,23 +60,22 @@ bool GeometricFunctions::checkConcavityByAngle(const Quadrilateral &quadrilatera
 	return false;
 }
 
-bool GeometricFunctions::checkConcavityByIntersection(const Quadrilateral &quadrilateral) {
+bool GeometricFunctions::checkConcavityByIntersection(const Quadrilateral* quadrilateral) {
 
 	// Get the diagonals and see if they cross each other
 	// This function assumes that input quadrilaterals are planar
 
-	// Get the vertices of the quadrilateral
-	const Vertex vertexA = quadrilateral.getVertexA();
-	const Vertex vertexB = quadrilateral.getVertexB();
-	const Vertex vertexC = quadrilateral.getVertexC();
-	const Vertex vertexD = quadrilateral.getVertexD();
-
 	// Get the diagonals on the quadrilateral
-	const Edge diagonalAC(vertexA, vertexC);
-	const Edge diagonalBD(vertexB, vertexD);
+	const Edge diagonalAC(quadrilateral->a, quadrilateral->c);
+	const Edge diagonalBD(quadrilateral->b, quadrilateral->d);
 
 	// If diagonals do not intersect, the quadrilateral is concave
 	return !checkLineIntersection(diagonalAC, diagonalBD);
+}
+
+bool GeometricFunctions::checkPlanarity(const Quadrilateral* quadrilateral) {
+	// TODO - Implement planarity function
+	return true;
 }
 
 bool GeometricFunctions::checkLineIntersection(const Edge &a, const Edge &b) {

@@ -1,24 +1,21 @@
 #ifndef QUADRILATERAL
 #define QUADRILATERAL
 
-#include "Vector.h"
+#include "Primitive.h"
 
-const int POINT_COUNT = 4;
-
-class Quadrilateral {
+class Quadrilateral : public Primitive {
 public:
+
+	const static int POINT_COUNT = 4;
+
+	Vertex a;
+	Vertex b;
+	Vertex c;
+	Vertex d;
 
 	Quadrilateral();
 	Quadrilateral(const Vertex &a, const Vertex &b, const Vertex &c, const Vertex &d);
-
-	const Vertex &getVertexA() const;
-	const Vertex &getVertexB() const;
-	const Vertex &getVertexC() const;
-	const Vertex &getVertexD() const;
-
-private:
-
-	Vertex vertices[POINT_COUNT];
+	Quadrilateral(const Quadrilateral& quadrilateral);
 
 };
 

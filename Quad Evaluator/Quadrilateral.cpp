@@ -1,31 +1,22 @@
 #include "Quadrilateral.h"
 
 Quadrilateral::Quadrilateral() {
-	vertices[0] = Vertex(0, 0, 0);
-	vertices[1] = Vertex(0, 0, 0);
-	vertices[2] = Vertex(0, 0, 0);
-	vertices[3] = Vertex(0, 0, 0);
+	this->a = Vertex(0, 0, 0);
+	this->b = Vertex(0, 0, 0);
+	this->c = Vertex(0, 0, 0);
+	this->d = Vertex(0, 0, 0);
 }
 
 Quadrilateral::Quadrilateral(const Vertex &a, const Vertex &b, const Vertex &c, const Vertex &d) {
-	vertices[0] = a;
-	vertices[1] = b;
-	vertices[2] = c;
-	vertices[3] = d;
+	this->a = a;
+	this->b = b;
+	this->c = c;
+	this->d = d;
 }
 
-const Vertex &Quadrilateral::getVertexA() const {
-	return vertices[0];
-}
-
-const Vertex &Quadrilateral::getVertexB() const {
-	return vertices[1];
-}
-
-const Vertex &Quadrilateral::getVertexC() const {
-	return vertices[2];
-}
-
-const Vertex &Quadrilateral::getVertexD() const {
-	return vertices[3];
+Quadrilateral::Quadrilateral(const Quadrilateral& quadrilateral) {
+	this->a = quadrilateral.a;
+	this->b = quadrilateral.b;
+	this->c = quadrilateral.c;
+	this->d = quadrilateral.d;
 }

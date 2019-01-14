@@ -1,9 +1,8 @@
 #ifndef MESH_READER
 #define MESH_READER
 
-#include "Quadrilateral.h"
+#include "Mesh.h"
 #include <string>
-#include <vector>
 
 class MeshReader {
 public:
@@ -11,8 +10,11 @@ public:
 	// Returns the singleton mesh reader instance
 	static MeshReader* getInstance();
 
-	// Reads the mesh in the given filepath
-	std::vector<Quadrilateral> readMesh(std::string filepath);
+	// Reads the quadrilateral mesh in the given filepath
+	void readQuadrilateralMesh(std::string filepath, Mesh* &mesh);
+
+	// Reads the triangle mesh in the given filepath
+	void readTriangleMesh(std::string filepath, Mesh* &mesh);
 
 private:
 
