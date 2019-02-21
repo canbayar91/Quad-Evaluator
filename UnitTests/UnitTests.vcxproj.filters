@@ -21,6 +21,9 @@
     <ClInclude Include="targetver.h">
       <Filter>Başlık Dosyaları</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Başlık Dosyaları</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -32,5 +35,13 @@
     <ClCompile Include="EvaluationFunctionsTest.cpp">
       <Filter>Kaynak Dosyalar</Filter>
     </ClCompile>
+    <ClCompile Include="QuadrilateralTest.cpp">
+      <Filter>Kaynak Dosyalar</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="UnitTests.rc">
+      <Filter>Kaynak Dosyaları</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

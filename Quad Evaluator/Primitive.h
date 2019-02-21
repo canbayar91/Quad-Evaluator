@@ -2,11 +2,13 @@
 #define PRIMITIVE
 
 #include "Vector.h"
+#include <string>
 
 class Primitive {
 public:
 
-	// TODO - Implement geometric primitive interface
+	virtual void textOutput(std::string filename) const = 0;
+	virtual void offOutput(std::string filename) const = 0;
 
 };
 

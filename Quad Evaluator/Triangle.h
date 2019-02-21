@@ -16,6 +16,9 @@ public:
 	Triangle(const Vertex &a, const Vertex &b, const Vertex &c);
 	Triangle(const Triangle& triangle);
 	
+	void textOutput(std::string filename) const;
+	void offOutput(std::string filename) const;
+
 };
 
 #endif
