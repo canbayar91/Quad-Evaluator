@@ -22,22 +22,7 @@ Quadrilateral::Quadrilateral(const Quadrilateral& quadrilateral) {
 	this->d = quadrilateral.d;
 }
 
-void Quadrilateral::textOutput(std::string filename) const {
-
-	// Open the file in given location
-	std::ofstream outfile(filename);
-
-	// Write the vertex coordinates to file
-	outfile << a.x << " " << a.y << " " << a.z << std::endl;
-	outfile << b.x << " " << b.y << " " << b.z << std::endl;
-	outfile << c.x << " " << c.y << " " << c.z << std::endl;
-	outfile << d.x << " " << d.y << " " << d.z << std::endl;
-
-	// Close the input file
-	outfile.close();
-}
-
-void Quadrilateral::offOutput(std::string filename) const {
+void Quadrilateral::output(std::string filename) const {
 
 	// Open the file in given location
 	std::ofstream outfile(filename);

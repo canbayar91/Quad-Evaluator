@@ -7,8 +7,7 @@
 class Primitive {
 public:
 
-	virtual void textOutput(std::string filename) const = 0;
-	virtual void offOutput(std::string filename) const = 0;
+	virtual void output(std::string filename) const = 0;
 
 };
 

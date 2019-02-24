@@ -17,8 +17,7 @@ public:
 	Quadrilateral(const Vertex &a, const Vertex &b, const Vertex &c, const Vertex &d);
 	Quadrilateral(const Quadrilateral& quadrilateral);
 
-	void textOutput(std::string filename) const;
-	void offOutput(std::string filename) const;
+	void output(std::string filename) const;
 
 };
 

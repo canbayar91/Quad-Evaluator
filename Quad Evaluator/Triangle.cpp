@@ -19,21 +19,7 @@ Triangle::Triangle(const Triangle& triangle) {
 	this->c = triangle.c;
 }
 
-void Triangle::textOutput(std::string filename) const {
-
-	// Open the file in given location
-	std::ofstream outfile(filename);
-
-	// Write the vertex coordinates to file
-	outfile << a.x << " " << a.y << " " << a.z << std::endl;
-	outfile << b.x << " " << b.y << " " << b.z << std::endl;
-	outfile << c.x << " " << c.y << " " << c.z << std::endl;
-
-	// Close the input file
-	outfile.close();
-}
-
-void Triangle::offOutput(std::string filename) const {
+void Triangle::output(std::string filename) const {
 
 	// Open the file in given location
 	std::ofstream outfile(filename);
