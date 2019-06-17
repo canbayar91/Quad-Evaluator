@@ -280,7 +280,7 @@ const void EvaluationFunctions::projectTriangle(Triangle* &triangle) {
 
 	// Calculate the x-y values for the third vertex
 	double x = (pow(leftEdgeLength, 2) - pow(leftoverLength, 2) + pow(rightEdgeLength, 2)) / (2 * rightEdgeLength);
-	double y = sqrt(pow(leftEdgeLength, 2) - pow(x, 2));
+	double y = sqrt(abs(pow(leftEdgeLength, 2) - pow(x, 2)));
 
 	// Create vertices that are aligned with z=0 plane
 	const Vertex middleVertex(0, 0);

@@ -1,4 +1,5 @@
 #include "GeometricFunctions.h"
+#include <iostream>
 #include <cmath>
 
 double GeometricFunctions::dotProduct(const Vector &a, const Vector &b) {
@@ -148,8 +149,23 @@ Angle GeometricFunctions::calculateAngle(const Vector &a, const Vector &b) {
 	double lengthA = a.getLength();
 	double lengthB = b.getLength();
 
+	// Calculate the cosine value in order to handle edge cases 
+	double cosValue = 0;
+	if (lengthA != 0 && lengthB != 0) {
+		cosValue = dotProduct / (lengthA * lengthB);
+	} else {
+		std::cout << "Problem: Zero-length vector!" << std::endl;
+	}
+
 	// Calculate the angle between the edges in degrees
-	Angle angle = acos(dotProduct / (lengthA * lengthB)) * 180.0 / PI;
+	Angle angle;
+	if (cosValue >= 1.0) {
+		angle = 0.0;
+	} else if (cosValue <= -1.0) {
+		angle = 180.0;
+	} else {
+		angle = acos(cosValue) * 180.0 / PI;
+	}
 
 	// Return the angle
 	return angle;
@@ -176,7 +192,7 @@ const Vector GeometricFunctions::normalizeVector(const Vector &vector) {
 	double x = vector.start.x + vector.getLengthX() / length;
 	double y = vector.start.y + vector.getLengthY() / length;
 	double z = vector.start.z + vector.getLengthZ() / length;
-	
+
 	// Create and return the normalized vector
 	return Vector(vector.start, Vertex(x, y, z));
 }

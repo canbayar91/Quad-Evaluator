@@ -13,21 +13,25 @@ MeshStatistics::MeshStatistics(MetricType metricType) {
 
 void MeshStatistics::updateStatistics(const double value) {
 
-	// Update the total metric value and the counter
-	totalValue += value;
-	quadrilateralCount++;
+	// NaN check in order to ignore error cases
+	if (!isnan(value)) {
 
-	// Insert the new value into the list
-	values.push_back(value);
+		// Update the total metric value and the counter
+		totalValue += value;
+		quadrilateralCount++;
 
-	// Update the minimum value, if the new value is smaller
-	if (value < minimumValue) {
-		minimumValue = value;
-	}
+		// Insert the new value into the list
+		values.push_back(value);
 
-	// Update the maximum value, if the new value is bigger
-	if (value > maximumValue) {
-		maximumValue = value;
+		// Update the minimum value, if the new value is smaller
+		if (value < minimumValue) {
+			minimumValue = value;
+		}
+
+		// Update the maximum value, if the new value is bigger
+		if (value > maximumValue) {
+			maximumValue = value;
+		}
 	}
 }
 
