@@ -125,7 +125,6 @@ const Vertex GeometricFunctions::findLineIntersection(const Edge &a, const Edge 
 const Normal GeometricFunctions::findNormal(const Vector &a, const Vector &b) {
 
 	// Find the length of the normal vector in xyz-coordinates
-	// TODO - Cross product can return 0
 	double x = a.getProductY() * b.getProductZ() - a.getProductZ() * b.getProductY();
 	double y = a.getProductZ() * b.getProductX() - a.getProductX() * b.getProductZ();
 	double z = a.getProductX() * b.getProductY() - a.getProductY() * b.getProductX();
@@ -135,6 +134,9 @@ const Normal GeometricFunctions::findNormal(const Vector &a, const Vector &b) {
 
 	// Create the normal vector
 	Normal normal(a.start, endpoint);
+	if (normal.getLength() == 0) {
+		std::cout << "Problem: Normal vector's length is zero!" << std::endl;
+	}
 
 	// Return the normal vector
 	return normal;
