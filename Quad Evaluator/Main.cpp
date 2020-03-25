@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
 	// Read the mesh from input file
 	Mesh* quadrilateralMesh = new Mesh(QUADRILATERAL_MESH);
 	MeshReader::getInstance()->readQuadrilateralMesh(filename, quadrilateralMesh);
+	std::cout << "Mesh is read. Starting metric analysis..." << std::endl;
 
 	// Calculate the angle statistics of the quadrilateral
 	AngleStatistics angleStatistics(quadrilateralMesh);
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	// Delete the output file, if it is created previously
-	const char* outputFile = "results.txt";
+	const char* outputFile = "statistics.txt";
 	std::remove(outputFile);
 
 	// Output the minimum and maximum angle values
@@ -72,10 +73,11 @@ int main(int argc, char *argv[]) {
 	
 	// Create the histograms of the metric calculations
 	if (argc == 3 && strcmp(argv[2], "-h") == 0) {
-		scaledJacobianStatistics.createHistogram("Histogram (Scaled Jacobian).csv");
-		distortionStatistics.createHistogram("Histogram (Distortion).csv");
-		warpageStatistics.createHistogram("Histogram (Warpage).csv");
-		aspectRatioStatistics.createHistogram("Histogram (Aspect Ratio).csv");
+		scaledJacobianStatistics.createHistogram("Statistics(Scaled Jacobian).csv");
+		distortionStatistics.createHistogram("Statistics(Distortion).csv");
+		warpageStatistics.createHistogram("Statistics(Warpage).csv");
+		aspectRatioStatistics.createHistogram("Statistics(Aspect-Ratio).csv");
+		std::cout << "Individual element metrics generated and can be analyzed using Excel." << std::endl;
 	}
 
 	// Finish the program by pressing a key
